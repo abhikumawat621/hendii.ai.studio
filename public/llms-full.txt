@@ -1,0 +1,43 @@
+# Hendii — Digital Marketing & AI Specialist (Full Documentation)
+
+## Executive Summary
+Hendii is a freelance digital marketer and AI specialist based in Rajasthan, India, serving clients worldwide. Specializing in conversion-focused WordPress websites, data-driven Search Engine Optimisation (SEO), scalable Meta/Facebook advertising campaigns, and generative AI content workflows.
+
+---
+
+## Complete Service Breakdown
+
+### 1. WordPress Website Development
+- Custom UI/UX design tailored for lead generation and eCommerce.
+- Clean code, lightweight plugins, and mobile-first responsiveness.
+- Speed optimization achieving sub-2-second load times.
+- Enterprise-grade security hardening and automated SSL/backup configurations.
+
+### 2. Search Engine Optimisation (SEO)
+- **Technical SEO**: Crawl error remediation, XML sitemap generation, structured data schema (JSON-LD), Core Web Vitals optimization.
+- **On-Page SEO**: Title tags, meta descriptions, keyword mapping, internal linking structures.
+- **Off-Page SEO**: Safe white-hat link acquisition, brand citations, local Google Business Profile optimization.
+
+### 3. Meta & Facebook Ads Management
+- Custom audience modeling, lookalike segmentation, and retargeting funnels.
+- Creative production: High-CTR video and image ad copy testing.
+- Conversion API (CAPI) & Pixel verification for bulletproof tracking.
+
+### 4. AI Marketing & Visual Production
+- Custom prompt engineering for commercial product imagery.
+- Video generation workflows for engaging social media reels.
+- Automated copy generation for email newsletters and landing page funnels.
+
+---
+
+## Frequently Asked Questions (FAQs)
+- **How long does a WordPress project take?** Typically 5 to 10 business days depending on features and scope.
+- **How soon will SEO results show?** Initial technical improvements reflect within 2-4 weeks; competitive keyword rank gains typically compound over 2 to 3 months.
+- **What is the onboarding process?** 1. Free Consultation -> 2. Requirement Scope & Proposal -> 3. Milestone Execution -> 4. Review & Launch -> 5. Post-launch Support.
+
+---
+
+## Contact & Direct Channels
+- **Phone / WhatsApp**: +91 9782546371
+- **Email**: hendii.kumar@gmail.com
+- **Website**: https://hendii.ai.studio/

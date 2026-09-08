@@ -1,0 +1,28 @@
+[
+  {
+    "id": "lead_1",
+    "name": "Ramesh Sharma",
+    "phone": "+91 98290 12345",
+    "email": "ramesh.sharma@example.com",
+    "businessName": "Sharma Handicrafts",
+    "city": "Jaipur",
+    "service": "SEO & Google Maps",
+    "budget": "₹10,000 - ₹25,000",
+    "message": "Looking to rank our handicraft showroom on Google Maps for tourists in Jaipur.",
+    "createdAt": "2026-09-05T07:42:06.011Z",
+    "status": "contacted"
+  },
+  {
+    "id": "lead_2",
+    "name": "Pooja Choudhary",
+    "phone": "+91 94140 67890",
+    "email": "pooja.neet@example.com",
+    "businessName": "Target NEET Academy",
+    "city": "Sikar",
+    "service": "Meta Ads (FB & IG)",
+    "budget": "₹25,000 - ₹50,000+",
+    "message": "Need Facebook and Instagram lead generation ads for upcoming student batch admissions.",
+    "createdAt": "2026-09-02T07:42:06.011Z",
+    "status": "new"
+  }
+]

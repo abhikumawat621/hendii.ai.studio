@@ -1,0 +1,29 @@
+# Hendii — Digital Marketing & AI Specialist
+
+> Professional freelance digital marketing, SEO, WordPress development, Meta Ads, and AI content creation for startups, local businesses, and modern enterprises.
+
+## Core Capabilities
+- **WordPress Website Development**: High-performance responsive websites, landing pages, and WooCommerce e-commerce stores with clean structure.
+- **Search Engine Optimisation (SEO)**: On-Page optimization, technical audits, Core Web Vitals fixes, high-intent keyword strategies, and backlink foundations.
+- **Meta Ads & Facebook Advertising**: Full-funnel lead generation and eCommerce conversion campaigns with creative ad copies and ROAS tracking.
+- **AI Content & Visuals Studio**: AI-assisted marketing visual generation, product photoshoots, and dynamic ad copy production.
+- **Social Media Management**: Content scheduling, reel strategy, community growth, and branding assets.
+
+## Services & Deep Links
+- [Overview & About](https://hendii.ai.studio/#overview): Background, freelance commitment, and full process.
+- [WordPress Development](https://hendii.ai.studio/#service-wordpress): Modern Elementor & Gutenberg custom development, speed optimization, and security setup.
+- [SEO Overhaul & Rankings](https://hendii.ai.studio/#service-seo): Google Search Console setup, sitemap indexing, local SEO, and technical performance tuning.
+- [Meta Ads Management](https://hendii.ai.studio/#service-meta-ads): Audience targeting, pixel tracking, creative testing, and high-converting ad copy.
+- [AI Marketing Studio](https://hendii.ai.studio/#ai-studio): Interactive prompt engineering, ad visual generation, and AI marketing pipelines.
+- [Contact & Consultation](https://hendii.ai.studio/#contact): Direct contact form with automatic WhatsApp integration.
+
+## Contact Information
+- **Full Name**: Hendii
+- **Role**: Digital Marketing & AI Specialist
+- **Direct Phone / WhatsApp**: +91 9782546371
+- **Email**: hendii.kumar@gmail.com
+- **Location**: Rajasthan, India
+- **Availability**: Open for direct freelance client projects globally.
+
+## Extended Documentation
+- [Full LLM Documentation](https://hendii.ai.studio/llms-full.txt): Detailed breakdown of deliverable scopes, FAQs, and client workflow.
