@@ -359,7 +359,9 @@ Sitemap: ${baseUrl}/sitemap.xml
 // ================= VITE MIDDLEWARE & STATIC SERVING =================
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
+  const { createServer: createViteServer } = await import("vite");
+
+  const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
@@ -385,3 +387,4 @@ async function startServer() {
 }
 
 startServer();
+
