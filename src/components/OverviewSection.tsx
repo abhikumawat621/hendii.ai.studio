@@ -52,7 +52,7 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ onSelectTab })
                 </span>
               </h1>
               <h2 className="text-lg sm:text-2xl font-sans font-bold text-[#A7AFBA] pt-3">
-                Freelance Digital Marketer, Web Developer &amp; AI Growth Consultant
+                Freelance Digital Marketer, Web Developer &amp; AI Growth Consultant in Jaipur
               </h2>
             </div>
 
