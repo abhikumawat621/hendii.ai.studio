@@ -46,7 +46,8 @@ if (!fs.existsSync(LEADS_FILE)) {
       city: "Jaipur",
       service: "SEO & Google Maps",
       budget: "₹10,000 - ₹25,000",
-      message: "Looking to rank our handicraft showroom on Google Maps for tourists in Jaipur.",
+      message:
+        "Looking to rank our handicraft showroom on Google Maps for tourists in Jaipur.",
       createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
       status: "contacted",
     },
@@ -59,11 +60,13 @@ if (!fs.existsSync(LEADS_FILE)) {
       city: "Sikar",
       service: "Meta Ads (FB & IG)",
       budget: "₹25,000 - ₹50,000+",
-      message: "Need Facebook and Instagram lead generation ads for upcoming student batch admissions.",
+      message:
+        "Need Facebook and Instagram lead generation ads for upcoming student batch admissions.",
       createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
       status: "new",
     },
   ];
+
   fs.writeFileSync(LEADS_FILE, JSON.stringify(initialLeads, null, 2));
 }
 
@@ -86,36 +89,60 @@ function saveLeads(leads: any[]) {
 
 // Master Admin Auth
 const ADMIN_PIN = process.env.ADMIN_PIN || "abhishek621";
-const ADMIN_SECRET = process.env.ADMIN_JWT_SECRET || "hendii_super_secret_salt_2026";
+const ADMIN_SECRET =
+  process.env.ADMIN_JWT_SECRET || "hendii_super_secret_salt_2026";
 
 function createAdminToken() {
   const payload = { role: "admin", exp: Date.now() + 86400000 * 7 };
   const str = Buffer.from(JSON.stringify(payload)).toString("base64");
-  const signature = crypto.createHmac("sha256", ADMIN_SECRET).update(str).digest("hex");
+  const signature = crypto
+    .createHmac("sha256", ADMIN_SECRET)
+    .update(str)
+    .digest("hex");
   return `${str}.${signature}`;
 }
 
 function verifyAdminToken(token?: string) {
   if (!token) return false;
+
   try {
     const [str, signature] = token.split(".");
+
     if (!str || !signature) return false;
-    const expectedSig = crypto.createHmac("sha256", ADMIN_SECRET).update(str).digest("hex");
+
+    const expectedSig = crypto
+      .createHmac("sha256", ADMIN_SECRET)
+      .update(str)
+      .digest("hex");
+
     if (signature !== expectedSig) return false;
-    const payload = JSON.parse(Buffer.from(str, "base64").toString("utf-8"));
+
+    const payload = JSON.parse(
+      Buffer.from(str, "base64").toString("utf-8")
+    );
+
     if (payload.exp < Date.now()) return false;
+
     return true;
   } catch (err) {
     return false;
   }
 }
 
-const requireAdmin = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+const requireAdmin = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
   const authHeader = req.headers.authorization;
-  const token = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : undefined;
+  const token = authHeader?.startsWith("Bearer ")
+    ? authHeader.slice(7)
+    : undefined;
+
   if (!verifyAdminToken(token)) {
     return res.status(401).json({ error: "Unauthorized access" });
   }
+
   next();
 };
 
@@ -123,30 +150,53 @@ const requireAdmin = (req: express.Request, res: express.Response, next: express
 
 // Health check
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", service: "Hendii Digital Growth API" });
+  res.json({
+    status: "ok",
+    service: "Hendii Digital Growth API",
+  });
 });
 
 // Admin PIN verification
 app.post("/api/admin/auth/verify", (req, res) => {
   const { pin } = req.body;
+
   if (pin === ADMIN_PIN) {
     const token = createAdminToken();
     return res.json({ success: true, token });
   }
-  return res.status(401).json({ success: false, message: "Incorrect master passcode." });
+
+  return res.status(401).json({
+    success: false,
+    message: "Incorrect master passcode.",
+  });
 });
 
 // Public contact inquiry submission
 app.post("/api/contact", (req, res) => {
   try {
-    const { name, phone, email, businessName, city, service, budget, message } = req.body;
+    const {
+      name,
+      phone,
+      email,
+      businessName,
+      city,
+      service,
+      budget,
+      message,
+    } = req.body;
+
     if (!name || !phone) {
-      return res.status(400).json({ error: "Name and Phone are required." });
+      return res.status(400).json({
+        error: "Name and Phone are required.",
+      });
     }
 
     const leads = readLeads();
+
     const newLead = {
-      id: `lead_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      id: `lead_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 5)}`,
       name,
       phone,
       email: email || "",
@@ -162,9 +212,14 @@ app.post("/api/contact", (req, res) => {
     leads.unshift(newLead);
     saveLeads(leads);
 
-    res.status(201).json({ success: true, lead: newLead });
+    res.status(201).json({
+      success: true,
+      lead: newLead,
+    });
   } catch (err: any) {
-    res.status(500).json({ error: err.message || "Failed to save inquiry." });
+    res.status(500).json({
+      error: err.message || "Failed to save inquiry.",
+    });
   }
 });
 
@@ -178,6 +233,7 @@ app.get("/api/contact", requireAdmin, (req, res) => {
 app.patch("/api/contact/:id", requireAdmin, (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
+
   const leads = readLeads();
   const index = leads.findIndex((l: any) => l.id === id);
 
@@ -187,43 +243,68 @@ app.patch("/api/contact/:id", requireAdmin, (req, res) => {
 
   leads[index].status = status;
   saveLeads(leads);
-  res.json({ success: true, lead: leads[index] });
+
+  res.json({
+    success: true,
+    lead: leads[index],
+  });
 });
 
 // Protected: Delete lead
 app.delete("/api/contact/:id", requireAdmin, (req, res) => {
   const { id } = req.params;
+
   let leads = readLeads();
   const initialLength = leads.length;
+
   leads = leads.filter((l: any) => l.id !== id);
 
   if (leads.length === initialLength) {
-    return res.status(404).json({ error: "Lead not found" });
+    return res.status(404).json({
+      error: "Lead not found",
+    });
   }
 
   saveLeads(leads);
-  res.json({ success: true, message: "Lead removed" });
+
+  res.json({
+    success: true,
+    message: "Lead removed",
+  });
 });
 
 // AI Marketing Studio endpoint (Gemini API)
 let geminiClient: GoogleGenAI | null = null;
+
 function getGeminiClient(): GoogleGenAI {
   if (!geminiClient) {
     const key = process.env.GEMINI_API_KEY;
+
     if (!key) {
-      throw new Error("GEMINI_API_KEY environment variable is missing.");
+      throw new Error(
+        "GEMINI_API_KEY environment variable is missing."
+      );
     }
+
     geminiClient = new GoogleGenAI({ apiKey: key });
   }
+
   return geminiClient;
 }
 
 app.post("/api/generate-marketing-ai", async (req, res) => {
   try {
-    const { businessType, targetCity, toolType, language } = req.body;
+    const {
+      businessType,
+      targetCity,
+      toolType,
+      language,
+    } = req.body;
 
     if (!businessType) {
-      return res.status(400).json({ error: "Business type is required." });
+      return res.status(400).json({
+        error: "Business type is required.",
+      });
     }
 
     const city = targetCity || "Rajasthan";
@@ -277,13 +358,19 @@ Format with:
 
     try {
       const ai = getGeminiClient();
+
       const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
       });
 
-      const text = response.text || "Strategy generated successfully.";
-      res.json({ success: true, content: text });
+      const text =
+        response.text || "Strategy generated successfully.";
+
+      res.json({
+        success: true,
+        content: text,
+      });
     } catch (aiErr: any) {
       // Fallback response if API key is not configured
       const fallbackText = `### 🚀 30-Day Growth Blueprint for ${businessType} (${city})
@@ -301,38 +388,28 @@ Format with:
 **3. Next Step:**
 Want Hendii to personally set up and manage this entire campaign? Reach out directly via WhatsApp (+91 9782546371).`;
 
-      res.json({ success: true, content: fallbackText });
+      res.json({
+        success: true,
+        content: fallbackText,
+      });
     }
   } catch (err: any) {
-    res.status(500).json({ error: err.message || "Failed to generate AI content." });
+    res.status(500).json({
+      error: err.message || "Failed to generate AI content.",
+    });
   }
 });
 
 // SEO: Sitemap.xml
 app.get("/sitemap.xml", (req, res) => {
-  const host = req.get("host") || "hendii.com";
-  const protocol = req.protocol;
-  const baseUrl = `${protocol}://${host}`;
+  const baseUrl = "https://hendii.com";
+  const today = new Date().toISOString().split("T")[0];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${baseUrl}/</loc>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/#services</loc>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/#contact</loc>
-    <lastmod>${new Date().toISOString().split("T")[0]}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>${today}</lastmod>
   </url>
 </urlset>`;
 
@@ -342,16 +419,13 @@ app.get("/sitemap.xml", (req, res) => {
 
 // SEO: Robots.txt
 app.get("/robots.txt", (req, res) => {
-  const host = req.get("host") || "hendii.com";
-  const protocol = req.protocol;
-  const baseUrl = `${protocol}://${host}`;
-
   const robots = `User-agent: *
 Allow: /
 Disallow: /api/admin/
 
-Sitemap: ${baseUrl}/sitemap.xml
+Sitemap: https://hendii.com/sitemap.xml
 `;
+
   res.header("Content-Type", "text/plain");
   res.send(robots);
 });
@@ -359,15 +433,17 @@ Sitemap: ${baseUrl}/sitemap.xml
 // ================= VITE MIDDLEWARE & STATIC SERVING =================
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
-  const { createServer: createViteServer } = await import("vite");
+    const { createServer: createViteServer } = await import("vite");
 
-  const vite = await createViteServer({
+    const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
+
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
+
     app.use(
       express.static(distPath, {
         maxAge: "1y",
@@ -375,16 +451,22 @@ async function startServer() {
         index: false,
       })
     );
+
     app.get("*", (req, res) => {
-      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.setHeader(
+        "Cache-Control",
+        "no-cache, no-store, must-revalidate"
+      );
+
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Hendii Server running on http://0.0.0.0:${PORT}`);
+    console.log(
+      `Hendii Server running on http://0.0.0.0:${PORT}`
+    );
   });
 }
 
 startServer();
-
