@@ -35,6 +35,7 @@ if (!fs.existsSync(DATA_DIR)) {
 }
 
 const LEADS_FILE = path.join(DATA_DIR, "leads.json");
+
 if (!fs.existsSync(LEADS_FILE)) {
   const initialLeads = [
     {
@@ -67,7 +68,10 @@ if (!fs.existsSync(LEADS_FILE)) {
     },
   ];
 
-  fs.writeFileSync(LEADS_FILE, JSON.stringify(initialLeads, null, 2));
+  fs.writeFileSync(
+    LEADS_FILE,
+    JSON.stringify(initialLeads, null, 2)
+  );
 }
 
 function readLeads() {
@@ -81,7 +85,10 @@ function readLeads() {
 
 function saveLeads(leads: any[]) {
   try {
-    fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
+    fs.writeFileSync(
+      LEADS_FILE,
+      JSON.stringify(leads, null, 2)
+    );
   } catch (err) {
     console.error("Error saving leads:", err);
   }
@@ -90,15 +97,24 @@ function saveLeads(leads: any[]) {
 // Master Admin Auth
 const ADMIN_PIN = process.env.ADMIN_PIN || "abhishek621";
 const ADMIN_SECRET =
-  process.env.ADMIN_JWT_SECRET || "hendii_super_secret_salt_2026";
+  process.env.ADMIN_JWT_SECRET ||
+  "hendii_super_secret_salt_2026";
 
 function createAdminToken() {
-  const payload = { role: "admin", exp: Date.now() + 86400000 * 7 };
-  const str = Buffer.from(JSON.stringify(payload)).toString("base64");
+  const payload = {
+    role: "admin",
+    exp: Date.now() + 86400000 * 7,
+  };
+
+  const str = Buffer.from(
+    JSON.stringify(payload)
+  ).toString("base64");
+
   const signature = crypto
     .createHmac("sha256", ADMIN_SECRET)
     .update(str)
     .digest("hex");
+
   return `${str}.${signature}`;
 }
 
@@ -135,12 +151,15 @@ const requireAdmin = (
   next: express.NextFunction
 ) => {
   const authHeader = req.headers.authorization;
+
   const token = authHeader?.startsWith("Bearer ")
     ? authHeader.slice(7)
     : undefined;
 
   if (!verifyAdminToken(token)) {
-    return res.status(401).json({ error: "Unauthorized access" });
+    return res
+      .status(401)
+      .json({ error: "Unauthorized access" });
   }
 
   next();
@@ -162,13 +181,19 @@ app.post("/api/admin/auth/verify", (req, res) => {
 
   if (pin === ADMIN_PIN) {
     const token = createAdminToken();
-    return res.json({ success: true, token });
+
+    return res.json({
+      success: true,
+      token,
+    });
   }
 
-  return res.status(401).json({
-    success: false,
-    message: "Incorrect master passcode.",
-  });
+  return res
+    .status(401)
+    .json({
+      success: false,
+      message: "Incorrect master passcode.",
+    });
 });
 
 // Public contact inquiry submission
@@ -186,9 +211,11 @@ app.post("/api/contact", (req, res) => {
     } = req.body;
 
     if (!name || !phone) {
-      return res.status(400).json({
-        error: "Name and Phone are required.",
-      });
+      return res
+        .status(400)
+        .json({
+          error: "Name and Phone are required.",
+        });
     }
 
     const leads = readLeads();
@@ -218,7 +245,8 @@ app.post("/api/contact", (req, res) => {
     });
   } catch (err: any) {
     res.status(500).json({
-      error: err.message || "Failed to save inquiry.",
+      error:
+        err.message || "Failed to save inquiry.",
     });
   }
 });
@@ -226,7 +254,11 @@ app.post("/api/contact", (req, res) => {
 // Protected: Get all leads
 app.get("/api/contact", requireAdmin, (req, res) => {
   const leads = readLeads();
-  res.json({ success: true, leads });
+
+  res.json({
+    success: true,
+    leads,
+  });
 });
 
 // Protected: Update lead status
@@ -235,10 +267,15 @@ app.patch("/api/contact/:id", requireAdmin, (req, res) => {
   const { status } = req.body;
 
   const leads = readLeads();
-  const index = leads.findIndex((l: any) => l.id === id);
+
+  const index = leads.findIndex(
+    (l: any) => l.id === id
+  );
 
   if (index === -1) {
-    return res.status(404).json({ error: "Lead not found" });
+    return res
+      .status(404)
+      .json({ error: "Lead not found" });
   }
 
   leads[index].status = status;
@@ -255,14 +292,17 @@ app.delete("/api/contact/:id", requireAdmin, (req, res) => {
   const { id } = req.params;
 
   let leads = readLeads();
+
   const initialLength = leads.length;
 
-  leads = leads.filter((l: any) => l.id !== id);
+  leads = leads.filter(
+    (l: any) => l.id !== id
+  );
 
   if (leads.length === initialLength) {
-    return res.status(404).json({
-      error: "Lead not found",
-    });
+    return res
+      .status(404)
+      .json({ error: "Lead not found" });
   }
 
   saveLeads(leads);
@@ -286,34 +326,40 @@ function getGeminiClient(): GoogleGenAI {
       );
     }
 
-    geminiClient = new GoogleGenAI({ apiKey: key });
+    geminiClient = new GoogleGenAI({
+      apiKey: key,
+    });
   }
 
   return geminiClient;
 }
 
-app.post("/api/generate-marketing-ai", async (req, res) => {
-  try {
-    const {
-      businessType,
-      targetCity,
-      toolType,
-      language,
-    } = req.body;
+app.post(
+  "/api/generate-marketing-ai",
+  async (req, res) => {
+    try {
+      const {
+        businessType,
+        targetCity,
+        toolType,
+        language,
+      } = req.body;
 
-    if (!businessType) {
-      return res.status(400).json({
-        error: "Business type is required.",
-      });
-    }
+      if (!businessType) {
+        return res
+          .status(400)
+          .json({
+            error: "Business type is required.",
+          });
+      }
 
-    const city = targetCity || "Rajasthan";
-    const lang = language || "Hinglish";
+      const city = targetCity || "Rajasthan";
+      const lang = language || "Hinglish";
 
-    let prompt = "";
+      let prompt = "";
 
-    if (toolType === "strategy") {
-      prompt = `You are Hendii, an expert freelance digital marketing & growth strategist in Rajasthan, India.
+      if (toolType === "strategy") {
+        prompt = `You are Hendii, an expert freelance digital marketing & growth strategist in Rajasthan, India.
 Generate a high-impact, actionable 30-Day Marketing Blueprint for a "${businessType}" located in "${city}".
 Language style: ${lang}.
 
@@ -325,8 +371,8 @@ Include:
 5. Direct WhatsApp conversion tip.
 
 Make it clean, formatted with bullet points, practical, and devoid of corporate fluff.`;
-    } else if (toolType === "ad_copy") {
-      prompt = `You are Hendii, an expert copywriter for Meta Ads (Facebook & Instagram) in India.
+      } else if (toolType === "ad_copy") {
+        prompt = `You are Hendii, an expert copywriter for Meta Ads (Facebook & Instagram) in India.
 Write 3 high-converting Meta Ad variations for a "${businessType}" in "${city}".
 Language: ${lang}.
 
@@ -335,8 +381,8 @@ For each variation provide:
 - Headline (Catchy & clear)
 - Call-to-Action (WhatsApp or Call)
 - Visual / Video Creative Recommendation.`;
-    } else if (toolType === "seo_keywords") {
-      prompt = `You are Hendii, a top local SEO specialist in India.
+      } else if (toolType === "seo_keywords") {
+        prompt = `You are Hendii, a top local SEO specialist in India.
 Provide a high-intent Local SEO Keyword Research Plan for a "${businessType}" in "${city}".
 
 Include:
@@ -344,8 +390,8 @@ Include:
 2. 5 Long-Tail Question Keywords people search before buying
 3. Exact Google Business Profile Category & Services to list
 4. City Geotag & Local Citation suggestions.`;
-    } else {
-      prompt = `You are Hendii, a creative Instagram Reels and YouTube Shorts scriptwriter.
+      } else {
+        prompt = `You are Hendii, a creative Instagram Reels and YouTube Shorts scriptwriter.
 Write a 30-45 second viral Reel/Shorts video script for a "${businessType}" in "${city}".
 Language: ${lang}.
 
@@ -354,26 +400,28 @@ Format with:
 - [On-Screen Hook Text]
 - [Spoken Voiceover/Dialogue]
 - [Final Call to Action (DM / WhatsApp)].`;
-    }
+      }
 
-    try {
-      const ai = getGeminiClient();
+      try {
+        const ai = getGeminiClient();
 
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-      });
+        const response =
+          await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+          });
 
-      const text =
-        response.text || "Strategy generated successfully.";
+        const text =
+          response.text ||
+          "Strategy generated successfully.";
 
-      res.json({
-        success: true,
-        content: text,
-      });
-    } catch (aiErr: any) {
-      // Fallback response if API key is not configured
-      const fallbackText = `### 🚀 30-Day Growth Blueprint for ${businessType} (${city})
+        res.json({
+          success: true,
+          content: text,
+        });
+      } catch (aiErr: any) {
+        // Fallback response if API key is not configured
+        const fallbackText = `### 🚀 30-Day Growth Blueprint for ${businessType} (${city})
 
 **1. Target Customer & Market Insight (${city})**
 - Local residents & professionals searching actively for reliable ${businessType} services.
@@ -388,22 +436,29 @@ Format with:
 **3. Next Step:**
 Want Hendii to personally set up and manage this entire campaign? Reach out directly via WhatsApp (+91 9782546371).`;
 
-      res.json({
-        success: true,
-        content: fallbackText,
+        res.json({
+          success: true,
+          content: fallbackText,
+        });
+      }
+    } catch (err: any) {
+      res.status(500).json({
+        error:
+          err.message ||
+          "Failed to generate AI content.",
       });
     }
-  } catch (err: any) {
-    res.status(500).json({
-      error: err.message || "Failed to generate AI content.",
-    });
   }
-});
+);
 
-// SEO: Sitemap.xml
+// ================= SEO =================
+
+// Sitemap.xml
 app.get("/sitemap.xml", (req, res) => {
   const baseUrl = "https://hendii.com";
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date()
+    .toISOString()
+    .split("T")[0];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -413,36 +468,53 @@ app.get("/sitemap.xml", (req, res) => {
   </url>
 </urlset>`;
 
-  res.header("Content-Type", "application/xml");
+  res.header(
+    "Content-Type",
+    "application/xml"
+  );
+
   res.send(sitemap);
 });
 
-// SEO: Robots.txt
+// Robots.txt
 app.get("/robots.txt", (req, res) => {
   const robots = `User-agent: *
 Allow: /
-Disallow: /api/admin/
+Disallow: /api/
+Disallow: /api/leads
 
 Sitemap: https://hendii.com/sitemap.xml
 `;
 
-  res.header("Content-Type", "text/plain");
+  res.header(
+    "Content-Type",
+    "text/plain"
+  );
+
   res.send(robots);
 });
 
 // ================= VITE MIDDLEWARE & STATIC SERVING =================
+
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
-    const { createServer: createViteServer } = await import("vite");
+    const {
+      createServer: createViteServer,
+    } = await import("vite");
 
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+      },
       appType: "spa",
     });
 
     app.use(vite.middlewares);
   } else {
-    const distPath = path.join(process.cwd(), "dist");
+    const distPath = path.join(
+      process.cwd(),
+      "dist"
+    );
 
     app.use(
       express.static(distPath, {
@@ -458,7 +530,9 @@ async function startServer() {
         "no-cache, no-store, must-revalidate"
       );
 
-      res.sendFile(path.join(distPath, "index.html"));
+      res.sendFile(
+        path.join(distPath, "index.html")
+      );
     });
   }
 
