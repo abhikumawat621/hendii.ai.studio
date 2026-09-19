@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /api/leads
 
-Sitemap: https://hendii.ai.studio/sitemap.xml
+Sitemap: https://hendii.com/sitemap.xml
