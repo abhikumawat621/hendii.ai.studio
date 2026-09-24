@@ -61,7 +61,8 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ onSelectTab })
             </p>
 
             <p className="text-sm sm:text-base text-[#A7AFBA] font-sans leading-relaxed max-w-2xl">
-              I build modern fast websites, rank businesses on Google Search, run high-converting Meta Ad funnels, and produce AI-assisted marketing assets that turn traffic into paying clients across Rajasthan &amp; India.
+              Hendii is a Jaipur-based digital marketing and AI solutions
+    agency helping businesses across Rajasthan and India.
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 pt-1 text-xs text-[#F5F7FA] font-sans">
