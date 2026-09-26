@@ -52,17 +52,16 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ onSelectTab })
                 </span>
               </h1>
               <h2 className="text-lg sm:text-2xl font-sans font-bold text-[#A7AFBA] pt-3">
-                Freelance Digital Marketer, Web Developer &amp; AI Growth Consultant in Jaipur
+                Freelance Digital Marketing &amp; Web Development Agency In Jaipur, Rajasthan
               </h2>
             </div>
 
-            <p className="text-lg sm:text-xl text-[#F5F7FA] font-semibold leading-snug">
+            {/* <p className="text-lg sm:text-xl text-[#F5F7FA] font-semibold leading-snug">
               "Helping Businesses Grow with Professional Websites, SEO, Meta Ads &amp; AI Content."
-            </p>
+            </p> */}
 
             <p className="text-sm sm:text-base text-[#A7AFBA] font-sans leading-relaxed max-w-2xl">
-              Hendii is a Jaipur-based digital marketing and AI solutions
-    agency helping businesses across Rajasthan and India.
+              Hendii is a digital marketing agency and web development company managing your online branding and marketing. Operating in Jaipur and across India, we work with you on a one-to-one basis for websites, SEO, local SEO, Google Business Profile, Google & Meta Ads, social media & AI and web to get you more inquiries.
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 gap-2.5 pt-1 text-xs text-[#F5F7FA] font-sans">
