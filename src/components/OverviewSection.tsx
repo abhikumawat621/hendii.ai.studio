@@ -100,24 +100,13 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ onSelectTab })
             </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-4">
-
-              
-              <button 
-  id="consultation-btn"
-  onClick={() => {
-    (window as any).dataLayer = (window as any).dataLayer || [];
-
-    (window as any).dataLayer.push({
-      event: "consultation_click"
-    });
-
-    onSelectTab("contact");
-  }}
-  className="px-7 py-3.5 rounded-2xl bg-[#B7FF00] hover:bg-[#a6e600] text-black font-extrabold text-sm tracking-wide transition transform hover:-translate-y-0.5 shadow-lg shadow-[#B7FF00]/20 flex items-center space-x-2 cursor-pointer"
->
-  <span>GET FREE CONSULTATION</span>
-  <ArrowRight className="w-4 h-4" />
-</button>
+              <button
+                onClick={() => onSelectTab("contact")}
+                className="px-7 py-3.5 rounded-2xl bg-[#B7FF00] hover:bg-[#a6e600] text-black font-extrabold text-sm tracking-wide transition transform hover:-translate-y-0.5 shadow-lg shadow-[#B7FF00]/20 flex items-center space-x-2 cursor-pointer"
+              >
+                <span>GET FREE CONSULTATION</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
 
               <a
                 href="https://wa.me/919782546371?text=Hi%20Hendii%2C%20I%20want%20to%20grow%20my%20business%20online."
