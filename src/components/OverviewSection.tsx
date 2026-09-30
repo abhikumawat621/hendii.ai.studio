@@ -100,9 +100,18 @@ export const OverviewSection: React.FC<OverviewSectionProps> = ({ onSelectTab })
             </div>
 
             <div className="flex flex-wrap items-center gap-4 pt-4">
+              
               <button
   id="consultation-btn"
-  onClick={() => onSelectTab("contact")}
+  onClick={() => {
+    (window as any).dataLayer = (window as any).dataLayer || [];
+
+    (window as any).dataLayer.push({
+      event: "consultation_click"
+    });
+
+    onSelectTab("contact");
+  }}
   className="px-7 py-3.5 rounded-2xl bg-[#B7FF00] hover:bg-[#a6e600] text-black font-extrabold text-sm tracking-wide transition transform hover:-translate-y-0.5 shadow-lg shadow-[#B7FF00]/20 flex items-center space-x-2 cursor-pointer"
 >
   <span>GET FREE CONSULTATION</span>
